@@ -43,7 +43,7 @@ void MoveImportFirst(std::vector<unsigned char>& bytes, const std::string& dll) 
     const auto optional = pe + 24;
     if (read16(bytes, optional) != 0x20bu) throw std::runtime_error("not a PE32+ image");
     constexpr std::size_t ImportDirectory = 112 + 8;
-    if (optionalSize < ImportDirectory + 16 || read32(bytes, optional + 108) < 2) throw std::runtime_error("the image has no imports");
+    if (optionalSize < ImportDirectory + 8 || read32(bytes, optional + 108) < 2) throw std::runtime_error("the image has no imports");
     const auto importRva = read32(bytes, optional + ImportDirectory);
     if (importRva == 0) throw std::runtime_error("the image has no imports");
     const auto sectionTable = optional + optionalSize;
